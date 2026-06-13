@@ -81,7 +81,7 @@ def Nettoyage_patient(patient):
     patient_propre = {
         "id"            : patient["id"].strip(),
         "nom"           : Nettoyage_nom(patient["nom"]),
-        "prenom"        : Nettoyage_nom(patient["prenom"]),
+        "prenom"        : Nettoyage_prenom(patient["prenom"]),
         "age"           : Nettoyage_valeur(patient["age"]),
         "telephone"     : Nettoyage_telephone(patient["telephone"]),
         "ville"         : Nettoyage_ville(patient["ville"]),
