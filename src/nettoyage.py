@@ -9,7 +9,7 @@ villes_correctes = {
 
     # Thies
     "thies"          : "Thies",
-    "thies"          : "Thies",
+    "thiès"          : "Thies",
 
     # Saint-Louis
     "saint louis"    : "Saint-Louis",
@@ -19,6 +19,7 @@ villes_correctes = {
     "ziguinchor"     : "Ziguinchor",
     "ziginchor"      : "Ziguinchor",
     "ziguichor"      : "Ziguinchor",
+    "ziguincor"      : "Ziguinchor",
 
     # Kaolack
     "kaolack"        : "Kaolack",
