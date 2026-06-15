@@ -1,5 +1,5 @@
 # --- Groupes sanguins autorisés ---
-groupes_valide = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
+groupes_valides = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
 
 
 def Validation_nom(nom): # Fonction de validation du nom
@@ -23,14 +23,12 @@ def Validation_age(age): # Fonction de validation de l'âge
     except ValueError:
         return False, f"age non numérique : '{age}'", None
 
+    if age_int == 0: 
+        return True, "", "age égal à zéro : suspect"
     if age_int < 0:
         return False, f"age négatif : {age_int}", None
     if age_int > 120:
         return False, f"age irréaliste : {age_int}", None
-
-    if age_int == 0:
-        # Pas un rejet : on garde le patient mais on signale l'anomalie
-        return True, "", "age égal à zéro : suspect"
 
     return True, "", None
 
@@ -59,7 +57,7 @@ def Validation_groupe_sanguin(groupe): # Fonction de validation du groupe sangui
     if groupe.strip() == "":
         return False, "groupe sanguin manquant", None
 
-    if groupe not in groupes_valide:
+    if groupe not in groupes_valides:
         return False, f"groupe sanguin invalide : '{groupe}'", None
 
     return True, "", None
@@ -163,20 +161,27 @@ def Validation_tous_les_patients(patients_nettoyes): # Fonction de validation de
                 "erreurs": erreurs
             })
 
+    print(f"\n Validation terminée :")
+    print(f"   - Patients valides  : {len(patients_valides)}")
+    print(f"   - Patients rejetés  : {len(patients_rejetes)}")
+    print(f"   - Doublons supprimés: {nb_doublons}")
+    print(f"   - Anomalies suspectes: {len(anomalies_suspectes)}")
+
     return patients_valides, patients_rejetes, nb_doublons, anomalies_suspectes
 
 
 if __name__ == "__main__":
+
     from chargement import Chargement
     from nettoyage import Nettoyage_tous_patients
 
-    chemin_fichier = "../data/patients_bruts.txt"
+    chemin = "../data/patients_bruts.txt"
 
-    print("=" * 35)
+    print("=" * 50)
     print("   TEST DU MODULE validation.py")
-    print("=" * 35)
+    print("=" * 50)
 
-    patients_bruts    = Chargement(chemin_fichier)
+    patients_bruts    = Chargement(chemin)
     patients_nettoyes = Nettoyage_tous_patients(patients_bruts)
     patients_valides, patients_rejetes, nb_doublons, anomalies_suspectes = Validation_tous_les_patients(patients_nettoyes)
 

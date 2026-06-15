@@ -1,4 +1,4 @@
-import re # Permet de manipuler des chaînes de caractères complexes
+import re # Importation du module re pour les expressions régulières
 
 # Dictionnaire contenant les noms des villes correctes comme valeur et les erreurs comme clés
 villes_correctes = {
@@ -76,9 +76,9 @@ def Nettoyage_valeur(valeur): # Fonction qui nettoie les ages, poids et taille
 # Fonction qui nettoie (en partie) les patients qui se trouve dans le dictionnaire 
 # "patient" situé au niveau du fichier chargement.py
 
-def Nettoyage_patient(patient): 
+def Nettoyage_patient(patient): # Fonction qui nettoie (en partie) les patients qui se trouve dans le dictionnaire "patient" situé au niveau du fichier chargement.py
 
-    patient_propre = {
+    patient_propre = { # Dictionnaire qui contient les informations du patient nettoyé
         "id"            : patient["id"].strip(),
         "nom"           : Nettoyage_nom(patient["nom"]),
         "prenom"        : Nettoyage_prenom(patient["prenom"]),
@@ -92,28 +92,44 @@ def Nettoyage_patient(patient):
 
     return patient_propre
 
-# Fonction qui nettoie(en part) tous les patients qui se trouve dans la liste de dictionnaire
-# "patients_bruts" situé dans le fichier chargement.py
- 
-def Nettoyage_tous_patients(patients_bruts): 
-
-    patient_nettoyer = [] # Liste qui va contenir tous les patients nettoyer
+def Nettoyage_tous_patients(patients_bruts): # Fonction qui nettoie (en partie) tous les patients qui se trouve dans la liste
+    patients_nettoyes = []  # Liste pour stocker les patients nettoyés
 
     for patient in patients_bruts:
-
-        try:    
+        try:
             patient_propre = Nettoyage_patient(patient)
-            patient_nettoyer.append(patient_propre)
-
+            patients_nettoyes.append(patient_propre)
         except Exception as e:
-            print("Erreur survenue lors du nettoyage")
+            print(f"[ERREUR] Impossible de nettoyer le patient id={patient.get('id', '?')} : {e}")
 
-    return patient_nettoyer
+    print(f"\n Nettoyage terminé : {len(patients_nettoyes)} patients traités") 
 
-if __name__ == "__main__":
+    return patients_nettoyes
+
+if __name__ == "__main__": # Point d'entrée pour tester le module nettoyage.py
+
+    from chargement import Chargement
+
+    chemin = "../data/patients_bruts.txt"
 
     print("=" * 35)
     print("   TEST DU MODULE nettoyage.py")
     print("=" * 35)
 
-    from chargement import Chargement
+    patients_bruts = Chargement(chemin )
+    patients_nettoyes = Nettoyage_tous_patients(patients_bruts)
+
+    print("\n Comparaison AVANT → APRÈS pour 30 patients :\n")
+    for i in range(min(10, len(patients_bruts))):
+        b = patients_bruts[i]
+        n = patients_nettoyes[i]
+        print(f"  Patient {b['id']} :")
+        print(f"    nom        : '{b['nom']}'  →  '{n['nom']}'")
+        print(f"    prenom     : '{b['prenom']}'  →  '{n['prenom']}'")
+        print(f"    age        : '{b['age']}'  →  '{n['age']}'")
+        print(f"    telephone  : '{b['telephone']}'  →  '{n['telephone']}'")
+        print(f"    ville      : '{b['ville']}'  →  '{n['ville']}'")
+        print(f"    groupe_sanguin : '{b['groupe_sanguin']}'  →  '{n['groupe_sanguin']}'")
+        print(f"    poids        : '{b['poids']}'  →  '{n['poids']}'")
+        print(f"    taille        : '{b['taille']}'  →  '{n['taille']}'")
+        print()

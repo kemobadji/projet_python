@@ -1,6 +1,6 @@
-chemin_fichier = "../data/patients_bruts.txt" # Chemin vers le fichier chargement.py
+chemin = "../data/patients_bruts.txt" # Chemin vers le fichier patients_bruts.txt
 
-def Chargement(chemin_fichier):
+def Chargement(chemin): # Fonction qui charge le fichier patients_bruts.txt et le lit
 
     # Les colonnes du fichier patients_bruts.txt
     colonnes = ["id", "nom", "prenom", "age", "telephone", "ville", "groupe_sanguin", "poids", "taille"]
@@ -10,11 +10,11 @@ def Chargement(chemin_fichier):
 
     try:
         
-        with open(chemin_fichier, "r", encoding="utf-8") as f: # Ouverture du fichier en lecture
+        with open(chemin, "r", encoding="utf-8") as f: # Ouverture du fichier en lecture
             fichier = f.readlines()
 
     except FileNotFoundError:
-        print(f"Fichier introuvable : {chemin_fichier}") # Le fichier n'existe pas à cet emplacement et retourne une liste vide.
+        print(f"Fichier introuvable : {chemin}") # Le fichier n'existe pas à cet emplacement et retourne une liste vide.
         return []
 
     except Exception as e:
@@ -64,17 +64,23 @@ def Chargement(chemin_fichier):
 
     return patients_bruts
 
-def Affichage_patient(patient):
+def Affichage_patient(patient): # Fonction pour afficher les informations d'un patient de manière lisible
     
     print("-" * 35)
     for cle, valeur in patient.items():
         print(f"  {cle:<15} : '{valeur}'")
     print("-" * 35)
 
-if __name__ == "__main__":
+if __name__ == "__main__": # Test du module chargement.py
 
     print("=" * 35)
     print("   TEST DU MODULE chargement.py")
     print("=" * 35)
 
+    patients = Chargement(chemin)
+
+    if patients:
+        print(f"\n Aperçu des 30 premiers patients chargés :\n")
+        for p in patients[:10]:
+            Affichage_patient(p)
     
