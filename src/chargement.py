@@ -62,7 +62,7 @@ def Chargement(chemin): # Fonction qui charge le fichier patients_bruts.txt et l
             print(f"Erreur inattendue sur une ligne: {e}")
             lignes_ignorees += 1
 
-    return patients_bruts
+    return patients_bruts # Renvoie la liste des patients bruts, même si certaines lignes ont été ignorées.
 
 def Affichage_patient(patient): # Fonction pour afficher les informations d'un patient de manière lisible
     
